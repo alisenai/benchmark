@@ -434,7 +434,7 @@ Benchmark* Benchmark::DenseThreadRange(int min_threads, int max_threads,
 }
 
 Benchmark* Benchmark::ThreadPerCpu() {
-  thread_counts_.push_back(CPUInfo::Get().num_cpus);
+  thread_counts_.push_back(8);
   return this;
 }
 

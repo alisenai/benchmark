@@ -136,47 +136,6 @@ bool JSONReporter::ReportContext(const Context& context) {
     out << indent << FormatKV("executable", Context::executable_name) << ",\n";
   }
 
-  CPUInfo const& info = context.cpu_info;
-  out << indent << FormatKV("num_cpus", static_cast<int64_t>(info.num_cpus))
-      << ",\n";
-  out << indent
-      << FormatKV("mhz_per_cpu",
-                  RoundDouble(info.cycles_per_second / 1000000.0))
-      << ",\n";
-  if (CPUInfo::Scaling::UNKNOWN != info.scaling) {
-    out << indent
-        << FormatKV("cpu_scaling_enabled",
-                    info.scaling == CPUInfo::Scaling::ENABLED ? true : false)
-        << ",\n";
-  }
-
-  out << indent << "\"caches\": [\n";
-  indent = std::string(6, ' ');
-  std::string cache_indent(8, ' ');
-  for (size_t i = 0; i < info.caches.size(); ++i) {
-    auto& CI = info.caches[i];
-    out << indent << "{\n";
-    out << cache_indent << FormatKV("type", CI.type) << ",\n";
-    out << cache_indent << FormatKV("level", static_cast<int64_t>(CI.level))
-        << ",\n";
-    out << cache_indent << FormatKV("size", static_cast<int64_t>(CI.size))
-        << ",\n";
-    out << cache_indent
-        << FormatKV("num_sharing", static_cast<int64_t>(CI.num_sharing))
-        << "\n";
-    out << indent << "}";
-    if (i != info.caches.size() - 1) out << ",";
-    out << "\n";
-  }
-  indent = std::string(4, ' ');
-  out << indent << "],\n";
-  out << indent << "\"load_avg\": [";
-  for (auto it = info.load_avg.begin(); it != info.load_avg.end();) {
-    out << *it++;
-    if (it != info.load_avg.end()) out << ",";
-  }
-  out << "],\n";
-
 #if defined(NDEBUG)
   const char build_type[] = "release";
 #else

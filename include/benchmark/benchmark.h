@@ -1370,7 +1370,7 @@ struct CPUInfo {
   std::vector<CacheInfo> caches;
   std::vector<double> load_avg;
 
-  static const CPUInfo& Get();
+  //static const CPUInfo& Get();
 
  private:
   CPUInfo();
@@ -1412,7 +1412,6 @@ struct BenchmarkName {
 class BenchmarkReporter {
  public:
   struct Context {
-    CPUInfo const& cpu_info;
     SystemInfo const& sys_info;
     // The number of chars in the longest benchmark name.
     size_t name_field_width;
